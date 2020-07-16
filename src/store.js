@@ -1,4 +1,5 @@
 const items = [];
+let expanded = false;
 let error = null;
 
 //finds item inside items by id
@@ -32,6 +33,7 @@ const clearError = function() {
 export default {
     items,
     error,
+    expanded,
     findById,
     addItem,
     findAndDelete,
