@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+header h1 {
+  text-align: center;
+  font-family: 'Montserarat', sans-serif;
+}
+.error-container {
+  color: red;
+  font-weight: bold;
+}
+
+.error-container * {
+  display: inline-block;
+}
+/* button for */
+#cancel-error {
+  margin-right: 0.5rem;
+}
+
+/*centers content*/
+.container {
+  width: 80%;
+  max-width: 600px;
+  margin: 50px auto;
+}
+/*resizes/formats buttons*/
+button.accordion {
+  width: 100%;
+  background-color: whitesmoke;
+  border: none;
+  outline: none;
+  text-align: left;
+  padding: 15px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s linear;
+}
+/*plus sign when closed*/
+button.accordion::after {
+  content: '\f055';
+  font-family: "fontawesome";
+  font-size: 14px;
+  float: right;
+}
+/* minus sign image when open */
+button.accordion.is-open::after {
+  content: '\f056';
+}
+/* darkens background of button on hover and click */
+button.accordion:hover, button.accordion.is-open {
+  background-color: #ddd;
+}
+/* stuff inside accordion overflow:hidden hides content when closed*/
+.accordion-content {
+  padding: 0 20px;
+  border-left: 1px solid whitesmoke;
+  border-right: 1px solid whitesmoke;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-in-out;
+}
+/* takes away bullet points on ul */
+ul li {
+  list-style: none;
+}
+
+/* styles visit site link to look like button */
+.visit-site-button {
+  font: bold 11px 'Montserratt';
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
+.js-delete {
+  cursor: pointer;
+}

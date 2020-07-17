@@ -1,43 +1,44 @@
-const items = [];
-let expanded = false;
+const bookmarks = [];
 let error = null;
 
-//finds item inside items by id
-const findById = function(id) {
-    return this.items.find(currentItem => currentItem.id === id);
+const findById = function (id) {
+  return this.bookmarks.find(currentBookmark => currentBookmark.id === id);
 };
 
-//adds item to items array
-const addItem = function(item) {
-    this.items.push(item);
+const addBookmark = function (bookmark) {
+  this.bookmarks.push(bookmark);
 };
 
-//finds item by id, then deletes it from items
-const findAndDelete = function(id) {
-    this.items = this.items.filter(currentItem => currentItem.id !== id);
+const findAndDelete = function (id) {
+  this.bookmarks = this.bookmarks.filter(currentBookmark => currentBookmark.id !== id);
 };
 
-const findAndUpdate = function(id, newData) {
-    const currrentItem = this.findById(id);
-    Object.assign(currentItem, newData);
-};
+function setError (err) {
+  this.error = err;
+}
 
-const setError = function(err) {
-    this.error = err;
-};
+function clearError() {
+  this.error = null;
+}
 
-const clearError = function() {
-    this.error = null;
-};
 
 export default {
-    items,
-    error,
-    expanded,
-    findById,
-    addItem,
-    findAndDelete,
-    findAndUpdate,
-    setError,
-    clearError
+  bookmarks,
+  error,
+  findById,
+  addBookmark,
+  findAndDelete,
+  setError,
+  clearError
 };
+
+/*
+function findAndUpdate (id, newData) {
+  const currentItem = this.findById(id);
+  Object.assign(currentItem, newData);
+};*/
+/*
+const toggleCheckedFilter = function () {
+  this.hideCheckedItems = !this.hideCheckedItems;
+};
+*/
