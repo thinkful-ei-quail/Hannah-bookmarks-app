@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmark App</title>
-    <style
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://kit.fontawesome.com/7287cb1911.js"></script>
 </head>
 
@@ -13,10 +14,42 @@
     <h1>My Bookmarks</h1>
 </header>
 <div class="container">
-    <!--view for list of bookmarks-->
+    <!--JS-MENU.EMPTY() WHEN ADDING IS TRUE, OTHERWISE RENDER-->
+    <!--PARSEINT STRING INTO INTEGER FOR FILTERSTARRATING-->
+    <div class=js-menu>
+        <button type="button" class="js-add-button">+ NEW</button>
+        <select id="dropdown" name="rating">
+            <option disabled value><option>Filter by rating:</option>
+            <option value="5">5 stars</option>
+            <option value="4">4 stars</option>
+            <option value="3">3 stars</option>
+            <option value="2">2 stars</option>
+            <option value="1">1 star</option>
+        </select>
+      </div> 
+
+    <!--view for list of bookmarks IF ADDING IS TRUE DO NOT RENDER,OTHERWISE RENDER-->
     <div class="js-bookmark-list"></div>
-    <!--view for adding a bookmark-->
-    <div class="js-add-bookmark"></div>
+    
+    <!--view for adding a bookmark DO NOT RENDER IF ADDING IS FALSE,OTHERWISE RENDER-->
+    <div id="js-add-bookmark">
+        <form class="js-add-bookmark-form">
+            <div class="error-container">
+            </div>
+            <label for="js-new-url">Add New Bookmark:</label><br>
+            <input id="js-new-url" name="url" type="text" placeholder="Enter url here:"><br>
+            <div class= "add-bookmark-wrapper">
+                <input id="js-new-title" name="title" type="text" required><br>
+                <input id="js-new-rating" name="rating" type="text" required><br>
+                <textarea id="js-new-descr" name="description" placeholder="Add a description (optional)"></textarea>
+            </div>
+            <div class= "button-wrapper">
+                <button type="submit"></button>
+            </div>
+        </form>
+    </div>
+
+
 </div>
 
 </body>

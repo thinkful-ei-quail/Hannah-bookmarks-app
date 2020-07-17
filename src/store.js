@@ -1,5 +1,7 @@
 const bookmarks = [];
 let error = null;
+let adding = false;
+let filter = 0;
 
 const findById = function (id) {
   return this.bookmarks.find(currentBookmark => currentBookmark.id === id);
@@ -25,6 +27,8 @@ function clearError() {
 export default {
   bookmarks,
   error,
+  adding,
+  filter,
   findById,
   addBookmark,
   findAndDelete,

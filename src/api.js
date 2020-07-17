@@ -30,14 +30,14 @@ function apiFetch(...args) {
 
 function createBookmark (object) {
     //stringify turns JS objects into string, data has to be string to send to server
-  const newBookmark = JSON.stringify({object});
+  const bookmark = JSON.stringify({object});
   //header tells we are sending json object, requires a method of POST to add, body contains info
   return apiFetch(`${BASE_URL}/bookmarks`, {
     method: 'POST', 
     headers: {
       'Content-Type': 'application/json'
     }, 
-    body: newBookmark
+    body: bookmark
   });
 }
 

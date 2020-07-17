@@ -13,30 +13,35 @@ const generateStarRating = function(bookmark) {
 
 //generate item element
 const generateBookmarkElement = function(bookmark, starRating) {
-  return `
-  <button class="accordion">${bookmark.title} ${starRating}</button>
-  <div class="accordion-content">
-  <ul>
-      <li><a href="${url}" class="visit-site-button">Visit Site</a></li>
-      <li>${bookmark.decription}</li>
-      <li><div class="js-delete"><i class="fas fa-trash-alt"></i></li>
-  </ul>
-</div>
-  `;
+  if(!store.adding) {
+    return `   
+    <button class="accordion-element data-bookmark-id="${item.id}">${bookmark.title} ${starRating}</button>
+    <div class="accordion-content">
+      <ul>
+        <li><a href="${url}" class="visit-site-button">Visit Site</a></li>
+        <li>${bookmark.decription}</li>
+        <li><div class="js-delete"><i class="fas fa-trash-alt"></i></li>
+      </ul>
+    </div>`
+  } 
 }
 
 
-//generate adding a bookmark
+//generate adding a bookmark, html form
+const generateAddBookmarkForm = function() {
+  if(store.adding) {
+    $('.js-menu').empty();
+    $('.js-bookmark-list').empty();
+    return `
+    
+    `;
+    //template goes above
+  }
+}
 
 
 
-
-//generate the list of bookmarks
-
-
-
-
-//adding html divs together
+//adding html divs together, list of bookmarks
 const generateBookmarkString = function (BookmarkList) {
   const items = bookmarkList.map((bookmark) => generateBookmarkElement(bookmark));
   return items.join('');
@@ -69,7 +74,7 @@ const render = function () {
   renderError();
   // Filter item list if store prop is true by item.checked === false
   let bookmarks = [...store.items];
-  
+
   const bookmarkString = generateBookmarkString(bookmarks);
   // render the shopping list in the DOM
 
@@ -81,24 +86,70 @@ const render = function () {
 
 
 
-
 /* EVENT LISTENERS */
 //when user presses new bookmark button
 function handleAddBookmarkClick() {
-
+  $('.js-menu').on('click','.js-add-button', event => {
+    store.adding = true;
+    $('#js-add-bookmark').html(generateAddBookmarkForm());
+    render();
+  });
 };
 
 
 
 //when user cancels add bookmark
 function handleCancelClick() {
-
+  $('#js-add-bookmark').on('click','.js-cancel-button', event => {
+    store.adding = false;
+    $('js-')
+    render();
+  });
 };
 
 //when user actually submits bookmark
 function handleSubmitBookmarkClick() {
-
+  $('#js-add-bookmark').submit(event => {
+    event.preventDefault();
+    const newBookmark = {
+      'title' : $('js-new-title').val(),
+      'url' : $('js-new-url').val(),
+      'description': $('js-new-descr').val(),
+      'rating' : parseInt($('js-new-rating').val()),
+    };
+    api.createItem(newBookmark)
+      .then((newThing) => {
+        store.addBookmark(newThing);
+        render();
+      })
+      .catch((error) => {
+        store.setError(error.message);
+        renderError();
+      });
+  });
 };
+
+//get id from element
+function getBookmarkIdFromElement(bookmark) {
+  return $(bookmark).closest('.accordion-element').data('bookmark-id');
+}
+
+
+//handle delete bookmark
+function handleDeleteClick() {
+  $('.js-bookmark-list').on('click', '.js-delete', event => {
+    const id = getBookmarkIdFromElement(event.currentTarget);
+    api.deleteBookmark(id)
+      .then(() => {
+        store.findAndDelete(id);
+        render();
+      })
+      .catch((error) => {
+        store.setError(error.message);
+        renderError();
+      });
+  });
+}
 
 //when user filters by rating
 function handleRatingSubmit() {

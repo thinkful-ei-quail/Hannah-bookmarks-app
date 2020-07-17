@@ -24,7 +24,7 @@ header h1 {
   margin: 50px auto;
 }
 /*resizes/formats buttons*/
-button.accordion {
+button.accordion-element {
   width: 100%;
   background-color: whitesmoke;
   border: none;
@@ -36,22 +36,22 @@ button.accordion {
   transition: background-color 0.2s linear;
 }
 /*plus sign when closed*/
-button.accordion::after {
+button.accordion-element::after {
   content: '\f055';
   font-family: "fontawesome";
   font-size: 14px;
   float: right;
 }
 /* minus sign image when open */
-button.accordion.is-open::after {
+button.accordion-element.is-open::after {
   content: '\f056';
 }
 /* darkens background of button on hover and click */
-button.accordion:hover, button.accordion.is-open {
+button.accordion-element:hover, button.accordion-element.is-open {
   background-color: #ddd;
 }
-/* stuff inside accordion overflow:hidden hides content when closed*/
-.accordion-content {
+/* stuff inside accordion-element overflow:hidden hides content when closed*/
+.accordion-element-content {
   padding: 0 20px;
   border-left: 1px solid whitesmoke;
   border-right: 1px solid whitesmoke;
