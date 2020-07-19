@@ -33,6 +33,27 @@ const generateAddBookmarkForm = function() {
     $('.js-menu').empty();
     $('.js-bookmark-list').empty();
     return `
+      <form class="js-add-bookmark-form">
+        <div class="error-container">
+        </div>
+        <label for="js-new-url">Add New Bookmark:</label><br>
+        <input id="js-new-url" name="url" type="text" placeholder="Enter url here:" required><br>
+        <div class= "add-bookmark-wrapper">
+            <input id="js-new-title" name="title" type="text" placeholder= "Enter title" required><br>
+            <select class="js-new-rating" name="rating" id="rating" required><br>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+            <textarea id="js-new-descr" name="description" placeholder="Add a description (optional)"></textarea>
+        </div>
+        <div class= "button-wrapper">
+            <button class= "submit" type="submit">Add</button>
+            <button class="cancel" type="cancel">Cancel</button>
+        </div>
+      </form>
     
     `;
     //template goes above
