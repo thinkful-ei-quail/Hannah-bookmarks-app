@@ -2,7 +2,7 @@ import store from "./store";
 import { data } from "jquery";
 
 
-const BASE_URL = 'https://thinkful-list-api.herokuapp.com/HannahH/bookmarks';
+const BASE_URL = 'https://thinkful-list-api.herokuapp.com/HannahHa';
 
 function apiFetch(...args) {
   let error;
@@ -30,7 +30,7 @@ function apiFetch(...args) {
 
 function createBookmark (object) {
     //stringify turns JS objects into string, data has to be string to send to server
-  const bookmark = JSON.stringify({object});
+  const bookmark = JSON.stringify(object);
   //header tells we are sending json object, requires a method of POST to add, body contains info
   return apiFetch(`${BASE_URL}/bookmarks`, {
     method: 'POST', 

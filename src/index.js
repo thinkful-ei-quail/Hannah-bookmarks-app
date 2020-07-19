@@ -37,17 +37,12 @@ filter: 0
 
 const main = function() {
     api.getBookmarks()
-        .then((items) => {
-            //if obj === [] set adding to false
-            if(items.length === 0) {
-                return $('.js-menu').after('<h3>No bookmarks yet, add a bookmark!</h3>');
-            }
-            //if elements then push info from server to local store
-            items.forEach((item) => store.addItem(item));
+        .then(bookmarks => {
+            bookmarks.forEach((bookmark) => store.addBookmark(bookmark));
             templates.render();
         });
-        bookmarkList.bindEventListeners();
-        bookmarkList.render();
+        templates.bindEventListeners();
+        templates.render();
 };
 
 $(main);

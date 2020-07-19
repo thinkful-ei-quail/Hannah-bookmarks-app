@@ -36,13 +36,3 @@ export default {
   clearError
 };
 
-/*
-function findAndUpdate (id, newData) {
-  const currentItem = this.findById(id);
-  Object.assign(currentItem, newData);
-};*/
-/*
-const toggleCheckedFilter = function () {
-  this.hideCheckedItems = !this.hideCheckedItems;
-};
-*/

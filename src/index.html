@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmark App</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" type="text/css" />
-    <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://kit.fontawesome.com/7287cb1911.js"></script>
 </head>
 
@@ -14,29 +12,9 @@
     <h1>My Bookmarks</h1>
 </header>
 <div class="container">
-    <!--JS-MENU.EMPTY() WHEN ADDING IS TRUE, OTHERWISE RENDER-->
-    <!--PARSEINT STRING INTO INTEGER FOR FILTERSTARRATING-->
-    <div class=js-menu>
-        <button type="button" class="js-add-button">+ NEW</button>
-        <select id="dropdown" name="rating">
-            <option disabled value><option>Filter by rating:</option>
-            <option value="5">5 stars</option>
-            <option value="4">4 stars</option>
-            <option value="3">3 stars</option>
-            <option value="2">2 stars</option>
-            <option value="1">1 star</option>
-        </select>
-      </div> 
-
-    <!--view for list of bookmarks IF ADDING IS TRUE DO NOT RENDER,OTHERWISE RENDER-->
-    <div class="js-bookmark-list"></div>
-    
-    <!--view for adding a bookmark DO NOT RENDER IF ADDING IS FALSE,OTHERWISE RENDER-->
-    <div id="js-add-bookmark">
+    <div class= "main-page-content js-main-page-content">
 
     </div>
-
-
 </div>
 
 </body>

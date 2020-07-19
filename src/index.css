@@ -51,7 +51,7 @@ button.accordion-element:hover, button.accordion-element.is-open {
   background-color: #ddd;
 }
 /* stuff inside accordion-element overflow:hidden hides content when closed*/
-.accordion-element-content {
+.accordion-content {
   padding: 0 20px;
   border-left: 1px solid whitesmoke;
   border-right: 1px solid whitesmoke;

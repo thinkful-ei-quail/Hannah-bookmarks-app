@@ -4,68 +4,97 @@ import store from './store.js';
 
 
 /*  GENERATE TEMPLATES */
-//generate stars
 const generateStarRating = function(bookmark) {
-  let starRating = '';
-
-  return starRating;
+  let starCount = '';
+  switch(bookmark.rating) {
+  case(1):
+    starCount = '<i class=\'fas fa-star\'></i><i class=\'far fa-star\'></i><i class=\'far fa-star\'></i><i class=\'far fa-star\'></i><i class=\'far fa-star\'></i>';
+    break;
+  case(2):
+    starCount = '<i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i><i class=\'far fa-star\'></i><i class=\'far fa-star\'></i><i class=\'far fa-star\'></i>';
+    break;
+  case(3):
+    starCount = '<i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i><i class=\'far fa-star\'></i><i class=\'far fa-star\'></i>';
+    break;
+  case(4):
+    starCount = '<i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i><i class=\'far fa-star\'></i>';
+    break;
+  case(5):
+    starCount = '<i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i><i class=\'fas fa-star\'></i>';
+  }
+  return starCount;
 }
 
 //generate item element
-const generateBookmarkElement = function(bookmark, starRating) {
-  if(!store.adding) {
-    return `   
-    <button class="accordion-element data-bookmark-id="${item.id}">${bookmark.title} ${starRating}</button>
+const generateBookmarkElement = function(bookmark) {
+  let starRating = generateStarRating(bookmark);
+  return `   
+    <button class="accordion-element data-bookmark-id="${bookmark.id}">${bookmark.title} ${starRating}</button>
     <div class="accordion-content">
       <ul>
-        <li><a href="${url}" class="visit-site-button">Visit Site</a></li>
-        <li>${bookmark.decription}</li>
+        <li><a href="${bookmark.url}" class="visit-site-button">Visit Site</a></li>
+        <li>${bookmark.desc}</li>
         <li><div class="js-delete"><i class="fas fa-trash-alt"></i></li>
       </ul>
     </div>`
-  } 
+}
+
+//generates main page
+const generateMain = function(bookmarks) {
+  return `
+  <div class="js-menu">
+    <button type="button" class="js-add-button">+ NEW</button>
+    <select id="dropdown" name="rating">
+        <option disabled value><option>Filter by rating:</option>
+        <option value="5">5 stars</option>
+        <option value="4">4 stars</option>
+        <option value="3">3 stars</option>
+        <option value="2">2 stars</option>
+        <option value="1">1 star</option>
+    </select>
+  </div> 
+  <div class="js-bookmark-list">
+    ${bookmarks}
+  </div>
+  `;
 }
 
 
 //generate adding a bookmark, html form
 const generateAddBookmarkForm = function() {
-  if(store.adding) {
-    $('.js-menu').empty();
-    $('.js-bookmark-list').empty();
-    return `
-      <form class="js-add-bookmark-form">
-        <div class="error-container">
-        </div>
-        <label for="js-new-url">Add New Bookmark:</label><br>
-        <input id="js-new-url" name="url" type="text" placeholder="Enter url here:" required><br>
-        <div class= "add-bookmark-wrapper">
-            <input id="js-new-title" name="title" type="text" placeholder= "Enter title" required><br>
-            <select class="js-new-rating" name="rating" id="rating" required><br>
-                <option value="1">1 Star</option>
-                <option value="2">2 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="5">5 Stars</option>
-            </select>
-            <textarea id="js-new-descr" name="description" placeholder="Add a description (optional)"></textarea>
-        </div>
-        <div class= "button-wrapper">
-            <button class= "submit" type="submit">Add</button>
-            <button class="cancel" type="cancel">Cancel</button>
-        </div>
-      </form>
-    
-    `;
-    //template goes above
-  }
+  return `
+    <form class="js-add-bookmark-form">
+      <div class="error-container">
+      </div>
+      <label for="js-new-url">Add New Bookmark:</label><br>
+      <input id="js-new-url" name="url" type="text" placeholder="Enter url here:" required><br>
+      <div class= "add-bookmark-wrapper">
+          <input id="js-new-title" name="title" type="text" placeholder= "Enter title" required><br>
+          <select class="js-new-rating" name="rating" id="rating" required><br>
+            <option disabled value><option>Select rating</option>
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+          </select>
+          <textarea id="js-new-descr" name="description" placeholder="Add a description (optional)"></textarea>
+      </div>
+      <div class= "button-wrapper">
+          <button class= "submit" type="submit">Add</button>
+          <button class="js-cancel-button" type="cancel">Cancel</button>
+      </div>
+    </form>
+  `;
+  //template goes above
 }
 
 
 
 //adding html divs together, list of bookmarks
-const generateBookmarkString = function (BookmarkList) {
-  const items = bookmarkList.map((bookmark) => generateBookmarkElement(bookmark));
-  return items.join('');
+const generateBookmarkString = function (bookmarkList) {
+  const bookmarkItems = bookmarkList.map((bookmark) => generateBookmarkElement(bookmark));
+  return bookmarkItems.join('');
 };
 
 
@@ -92,15 +121,20 @@ const renderError = function() {
 
 //generate page
 const render = function () {
-  renderError();
-  // Filter item list if store prop is true by item.checked === false
-  let bookmarks = [...store.items];
-
-  const bookmarkString = generateBookmarkString(bookmarks);
-  // render the shopping list in the DOM
-
-  // insert that HTML into the DOM
-  $('.js-bookmark-list').html(bookmarkString);
+  if(store.adding === true) {
+    const addPageStuff = generateAddBookmarkForm();
+    $('.main-page-content').html(addPageStuff);
+  } else if (store.bookmarks.length === 0){
+    const addPageStuff = generateAddBookmarkForm();
+    $('.main-page-content').html(addPageStuff);
+  } else {
+    if(store.filter > 1) {
+      bookmarks = store.bookmarks.filter(bookmark => bookmark.rating >= store.filter);
+    }
+    const bookmarkListHTML = generateBookmarkString(store.bookmarks);
+    const page = generateMain(bookmarkListHTML);
+    $('.main-page-content').html(page);
+  }
 };
 
 
@@ -110,9 +144,10 @@ const render = function () {
 /* EVENT LISTENERS */
 //when user presses new bookmark button
 function handleAddBookmarkClick() {
-  $('.js-menu').on('click','.js-add-button', event => {
+  $('.js-main-page-content').on('click','.js-add-button', event => {
+    console.log("this is working");
+    event.preventDefault();
     store.adding = true;
-    $('#js-add-bookmark').html(generateAddBookmarkForm());
     render();
   });
 };
@@ -121,29 +156,33 @@ function handleAddBookmarkClick() {
 
 //when user cancels add bookmark
 function handleCancelClick() {
-  $('#js-add-bookmark').on('click','.js-cancel-button', event => {
+  $('.js-main-page-content').on('click','.js-cancel-button', event => {
+    event.preventDefault();
     store.adding = false;
-    $('js-')
     render();
   });
 };
 
 //when user actually submits bookmark
 function handleSubmitBookmarkClick() {
-  $('#js-add-bookmark').submit(event => {
+  $('.js-main-page-content').submit('.js-add-bookmark-form', event => {
     event.preventDefault();
-    const newBookmark = {
-      'title' : $('js-new-title').val(),
-      'url' : $('js-new-url').val(),
-      'description': $('js-new-descr').val(),
-      'rating' : parseInt($('js-new-rating').val()),
+    const newBookmarkInfo = {
+      title : $('#js-new-title').val(),
+      url : $('#js-new-url').val(),
+      desc: $('#js-new-descr').val(),
+      rating : $("#rating option:selected").val()
     };
-    api.createItem(newBookmark)
-      .then((newThing) => {
-        store.addBookmark(newThing);
+    
+    console.log(newBookmarkInfo);
+    api.createBookmark(newBookmarkInfo)
+      .then(data => {
+        store.addBookmark(data);
+        store.adding = false;
         render();
       })
       .catch((error) => {
+        console.log(error);
         store.setError(error.message);
         renderError();
       });
@@ -158,7 +197,7 @@ function getBookmarkIdFromElement(bookmark) {
 
 //handle delete bookmark
 function handleDeleteClick() {
-  $('.js-bookmark-list').on('click', '.js-delete', event => {
+  $('.js-main-page-content').on('click', '.js-delete', event => {
     const id = getBookmarkIdFromElement(event.currentTarget);
     api.deleteBookmark(id)
       .then(() => {
@@ -173,13 +212,18 @@ function handleDeleteClick() {
 }
 
 //when user filters by rating
-function handleRatingSubmit() {
-
+function handleFilterRating() {
+  $('js-main-page-content').on('select', '#dropdown', () => {
+    const filterVal = $("#rating option:selected").val();
+    store.filter = filterVal;
+    render();
+  });
 }
 
 //when user clicks li to view more
 function handleViewMoreClick() {
-  var accordions = document.getElementsByClassName('accordion');
+  $('.js-main-page-content')
+  var accordions = document.getElementsByClassName('accordion-element');
   for (var i =0; i < accordions.length; i++) {
     accordions[i].onclick = function () {
       this.classList.toggle('is-open');
@@ -193,6 +237,7 @@ function handleViewMoreClick() {
       }
     };
   };
+  
 }
 
 
@@ -210,7 +255,7 @@ function bindEventListeners() {
     handleCancelClick();
     handleSubmitBookmarkClick();
     handleViewMoreClick();
-    handleRatingSubmit();
+    handleFilterRating();
     handleDeleteClick();
     handleCloseError();
   }
