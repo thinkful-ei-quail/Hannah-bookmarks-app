@@ -122,6 +122,7 @@ const renderError = function() {
 
 //generate page
 const render = function () {
+  renderError();
   if(store.adding === true) {
     const addPageStuff = generateAddBookmarkForm();
     $('.main-page-content').html(addPageStuff);
@@ -129,8 +130,9 @@ const render = function () {
     const addPageStuff = generateAddBookmarkForm();
     $('.main-page-content').html(addPageStuff);
   } else {
-    if(store.filter > 1) {
-      bookmarks = store.bookmarks.filter(bookmark => bookmark.rating >= store.filter);
+    if(store.filter > 0) {
+      let filteredBookmarkListString = generateBookmarkString(data.filterBookmarks());
+      return $('.main-page-content').html(filteredBookmarkListString);
     }
     const bookmarkListHTML = generateBookmarkString(store.bookmarks);
     const page = generateMain(bookmarkListHTML);
@@ -213,9 +215,11 @@ function handleDeleteClick() {
 
 //when user filters by rating
 function handleFilterRating() {
-  $("#dropdown").change(function() {
-    console.log("this is working")
-  });
+  $('select#dropdown').on('change', function (){
+    let filterValue = $(this).val();
+    store.filter = filterValue;
+    render();
+  }); 
 
   // $('js-main-page-content').on('change', '#dropdown', () => {
   //   console.log("this is working");

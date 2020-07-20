@@ -3,6 +3,10 @@ let error = null;
 let adding = false;
 let filter = 0;
 
+function filterBookmarks(){
+  return store.bookmarks.filter(bookmark => bookmark.rating >= store.filter);
+}
+
 const findById = function (id) {
   return this.bookmarks.find(currentBookmark => currentBookmark.id === id);
 };
@@ -29,6 +33,7 @@ export default {
   error,
   adding,
   filter,
+  filterBookmarks,
   findById,
   addBookmark,
   findAndDelete,
