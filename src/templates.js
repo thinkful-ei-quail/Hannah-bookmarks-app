@@ -29,12 +29,12 @@ const generateStarRating = function(bookmark) {
 const generateBookmarkElement = function(bookmark) {
   let starRating = generateStarRating(bookmark);
   return `   
-    <button class="accordion-element data-bookmark-id="${bookmark.id}">${bookmark.title} ${starRating}</button>
+    <button class="accordion-element" id="${bookmark.id}" >${bookmark.title} ${starRating}</button>
     <div class="accordion-content">
       <ul>
-        <li><a href="${bookmark.url}" class="visit-site-button">Visit Site</a></li>
+        <li><a href="${bookmark.url}" target="_blank" class="visit-site-button">Visit Site</a></li>
         <li>${bookmark.desc}</li>
-        <li><div class="js-delete"><i class="fas fa-trash-alt"></i></li>
+        <li class="js-delete"><i class="fas fa-trash-alt"></i></li>
       </ul>
     </div>`
 }
@@ -44,14 +44,16 @@ const generateMain = function(bookmarks) {
   return `
   <div class="js-menu">
     <button type="button" class="js-add-button">+ NEW</button>
-    <select id="dropdown" name="rating">
-        <option disabled value><option>Filter by rating:</option>
+    <form id="filterBy">
+      <select id="dropdown" name="rating">
+        <option disabled value>Filter by rating:</option>
         <option value="5">5 stars</option>
         <option value="4">4 stars</option>
         <option value="3">3 stars</option>
         <option value="2">2 stars</option>
         <option value="1">1 star</option>
-    </select>
+      </select>
+    </form>
   </div> 
   <div class="js-bookmark-list">
     ${bookmarks}
@@ -86,7 +88,6 @@ const generateAddBookmarkForm = function() {
       </div>
     </form>
   `;
-  //template goes above
 }
 
 
@@ -174,7 +175,6 @@ function handleSubmitBookmarkClick() {
       rating : $("#rating option:selected").val()
     };
     
-    console.log(newBookmarkInfo);
     api.createBookmark(newBookmarkInfo)
       .then(data => {
         store.addBookmark(data);
@@ -190,8 +190,8 @@ function handleSubmitBookmarkClick() {
 };
 
 //get id from element
-function getBookmarkIdFromElement(bookmark) {
-  return $(bookmark).closest('.accordion-element').data('bookmark-id');
+function getBookmarkIdFromElement(thing) {
+  return $(thing).parent().parent().siblings().attr('id');
 }
 
 
@@ -213,31 +213,32 @@ function handleDeleteClick() {
 
 //when user filters by rating
 function handleFilterRating() {
-  $('js-main-page-content').on('select', '#dropdown', () => {
-    const filterVal = $("#rating option:selected").val();
-    store.filter = filterVal;
-    render();
+  $("#dropdown").change(function() {
+    console.log("this is working")
   });
+
+  // $('js-main-page-content').on('change', '#dropdown', () => {
+  //   console.log("this is working");
+  //   const filterVal = $("#dropdown option:selected").attr('value');
+  //   store.filter = filterVal;
+  //   console.log(store.filter);
+  //   render();
+  // });
 }
 
 //when user clicks li to view more
 function handleViewMoreClick() {
-  $('.js-main-page-content')
-  var accordions = document.getElementsByClassName('accordion-element');
-  for (var i =0; i < accordions.length; i++) {
-    accordions[i].onclick = function () {
-      this.classList.toggle('is-open');
-      var content = this.nextElementSibling;
-      if(content.style.maxHeight) {
-        //accordion is open need to close it
-        content.style.maxHeight = null;
-      } else {
-        //accordion is closed, need to open
-        content.style.maxHeight = content.scrollHeight + 'px';
-      }
-    };
-  };
-  
+  $('.js-main-page-content').on('click', '.accordion-element', function(event) {
+    this.classList.toggle('is-open'); 
+    var content = this.nextElementSibling;
+    if(content.style.maxHeight) {
+      //accordion is open need to close it
+      content.style.maxHeight = null;
+    } else {
+      //accordion is closed, need to open
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+  });
 }
 
 

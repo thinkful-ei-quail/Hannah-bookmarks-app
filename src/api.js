@@ -46,9 +46,8 @@ function getBookmarks () {
 }
 
 
-
 function deleteBookmark(id) {
-  return apiFetch(`${BASE_URL}/items/${id}`, {
+  return apiFetch(`${BASE_URL}/bookmarks/${id}`, {
     method: 'DELETE'
   });
 }
