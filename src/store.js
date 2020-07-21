@@ -4,7 +4,7 @@ let adding = false;
 let filter = 0;
 
 function filterBookmarks(){
-  return store.bookmarks.filter(bookmark => bookmark.rating >= store.filter);
+  return this.bookmarks.filter(bookmark => bookmark.rating >= this.filter);
 }
 
 const findById = function (id) {
